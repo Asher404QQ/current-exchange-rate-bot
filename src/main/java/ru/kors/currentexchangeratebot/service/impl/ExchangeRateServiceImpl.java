@@ -1,6 +1,8 @@
 package ru.kors.currentexchangeratebot.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.w3c.dom.Document;
 import org.xml.sax.InputSource;
@@ -14,6 +16,7 @@ import javax.xml.xpath.XPathFactory;
 import java.io.StringReader;
 
 @Service
+@CacheConfig(cacheNames = "exchange_rate_bot")
 public class ExchangeRateServiceImpl implements ExchangeRatesService {
     private static final String USD_XPATH = "/ValCurs//Valute[@ID='R01235']/Value";
     private static final String EUR_XPATH = "/ValCurs//Valute[@ID='R01239']/Value";
@@ -25,36 +28,42 @@ public class ExchangeRateServiceImpl implements ExchangeRatesService {
     private CbrClient cbrClient;
 
     @Override
+    @Cacheable
     public String getUSDExchangeRate() throws ServiceException {
         var xml = cbrClient.getCurrentRate();
         return extractCurrentValueFromXML(xml, USD_XPATH);
     }
 
     @Override
+    @Cacheable
     public String getEURExchangeRate() throws ServiceException {
         var xml = cbrClient.getCurrentRate();
         return extractCurrentValueFromXML(xml, EUR_XPATH);
     }
 
     @Override
+    @Cacheable
     public String getAMDExchangeRate() throws ServiceException {
         var xml = cbrClient.getCurrentRate();
         return extractCurrentValueFromXML(xml, AMD_XPATH);
     }
 
     @Override
+    @Cacheable
     public String getCNYExchangeRate() throws ServiceException {
         var xml = cbrClient.getCurrentRate();
         return extractCurrentValueFromXML(xml, CNY_XPATH);
     }
 
     @Override
+    @Cacheable
     public String getKZTExchangeRate() throws ServiceException {
         var xml = cbrClient.getCurrentRate();
         return extractCurrentValueFromXML(xml, KZT_XPATH);
     }
 
     @Override
+    @Cacheable
     public String getTRYExchangeRate() throws ServiceException {
         var xml = cbrClient.getCurrentRate();
         return extractCurrentValueFromXML(xml, TRY_XPATH);

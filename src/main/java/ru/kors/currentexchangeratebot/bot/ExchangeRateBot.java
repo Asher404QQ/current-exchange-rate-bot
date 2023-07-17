@@ -34,7 +34,7 @@ public class ExchangeRateBot extends TelegramLongPollingBot {
 
     @Override
     public String getBotUsername() {
-        return "your_bot_username";
+        return "your telegram bot username";
     }
 
     @Override
